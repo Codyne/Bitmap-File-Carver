@@ -1,15 +1,21 @@
+import sys
 import os
 import re
 import hashlib
 
 def main():
-    infile = input()
-    check_infile(infile)
-    output_folder = create_output_folder(infile)
-    data = read_file(infile)
+    if len(sys.argv) < 2:
+        print("Invalid number of arguments. Please include paths to bmp files.")
+        exit(1);
 
-    suspicious_bytes = write_all_bitmaps(data, output_folder)
-    write_suspicious_bytes(data, suspicious_bytes, output_folder)
+    for i in range(1, len(sys.argv)):
+        infile = sys.argv[i]
+        check_infile(infile)
+        output_folder = create_output_folder(infile)
+        data = read_file(infile)
+
+        suspicious_bytes = write_all_bitmaps(data, output_folder)
+        write_suspicious_bytes(data, suspicious_bytes, output_folder)
 
 def check_infile(infile):
     if not re.search("\.bmp$", infile):
